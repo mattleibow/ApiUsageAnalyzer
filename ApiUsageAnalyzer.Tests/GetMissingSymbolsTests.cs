@@ -3,22 +3,17 @@ using System.Text;
 
 namespace ApiUsageAnalyzer.Tests;
 
-public class GetMissingMembersTests : BaseUnitTest
+public class GetMissingSymbolsTests : BaseUnitTest
 {
     [Fact]
     public void ClassLibraryV1IsCompatibleWithClassLibraryV1()
     {
         var analyzer = new ApiAnalyzer();
 
-        var result = analyzer.GetMissingMembers(
-            new()
+        var result = analyzer.GetMissingSymbols(
+            new(LibraryBuiltAgainstV1),
+            new(ClassLibraryV1)
             {
-                FileName = LibraryBuiltAgainstV1,
-                SearchPaths = [Path.GetDirectoryName(LibraryBuiltAgainstV1)!]
-            },
-            new()
-            {
-                FileName = ClassLibraryV1,
                 SearchPaths = [Path.GetDirectoryName(ClassLibraryV1)!]
             });
 
@@ -30,15 +25,10 @@ public class GetMissingMembersTests : BaseUnitTest
     {
         var analyzer = new ApiAnalyzer();
 
-        var result = analyzer.GetMissingMembers(
-            new()
+        var result = analyzer.GetMissingSymbols(
+            new(LibraryBuiltAgainstV1),
+            new(ClassLibraryV2)
             {
-                FileName = LibraryBuiltAgainstV1,
-                SearchPaths = [Path.GetDirectoryName(LibraryBuiltAgainstV1)!]
-            },
-            new()
-            {
-                FileName = ClassLibraryV2,
                 SearchPaths = [Path.GetDirectoryName(ClassLibraryV2)!]
             });
 
@@ -52,15 +42,13 @@ public class GetMissingMembersTests : BaseUnitTest
 
         var analyzer = new ApiAnalyzer();
 
-        var result = analyzer.GetMissingMembers(
-            new()
+        var result = analyzer.GetMissingSymbols(
+            new(Path.Combine(v2, "Svg.Skia.dll"))
             {
-                FileName = Path.Combine(v2, "Svg.Skia.dll"),
                 SearchPaths = [v2]
             },
-            new()
+            new(Path.Combine(v2, "SkiaSharp.dll"))
             {
-                FileName = Path.Combine(v2, "SkiaSharp.dll"),
                 SearchPaths = [v2]
             });
 
@@ -75,15 +63,13 @@ public class GetMissingMembersTests : BaseUnitTest
 
         var analyzer = new ApiAnalyzer();
 
-        var result = analyzer.GetMissingMembers(
-            new()
+        var result = analyzer.GetMissingSymbols(
+            new(Path.Combine(v2, "Svg.Skia.dll"))
             {
-                FileName = Path.Combine(v2, "Svg.Skia.dll"),
                 SearchPaths = [v2]
             },
-            new()
+            new(Path.Combine(v3, "SkiaSharp.dll"))
             {
-                FileName = Path.Combine(v3, "SkiaSharp.dll"),
                 SearchPaths = [v3]
             });
 
