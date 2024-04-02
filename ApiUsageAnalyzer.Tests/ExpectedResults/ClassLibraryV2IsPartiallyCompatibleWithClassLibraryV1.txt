@@ -1,0 +1,8 @@
+Mising Types:
+ClassLibrary.ClassV1Only
+ClassLibrary.TypeV1Only
+
+Missing Members:
+System.Void ClassLibrary.ClassV1AndV2::MethodV1Only()
+System.Void ClassLibrary.ClassV1Only::.ctor()
+System.Void ClassLibrary.ClassV1Only::Method()
