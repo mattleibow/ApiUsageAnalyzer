@@ -16,4 +16,6 @@ public class LibraryClass1
     }
 
     public Type Type = typeof(TypeV1Only);
+
+    public Type NestedType = typeof(ClassV1AndV2.NestedClassV1Only);
 }

@@ -1,4 +1,5 @@
 Mising Types:
+SkiaSharp.SKImageFilter/CropRect
 SkiaSharp.SKCropRectFlags
 
 Missing Members:

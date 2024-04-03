@@ -11,7 +11,10 @@ public class GetMissingSymbolsTests : BaseUnitTest
         var analyzer = new ApiAnalyzer();
 
         var result = analyzer.GetMissingSymbols(
-            new(LibraryBuiltAgainstV1),
+            new(LibraryBuiltAgainstV1)
+            {
+                SearchPaths = [Path.GetDirectoryName(LibraryBuiltAgainstV1)!]
+            },
             new(ClassLibraryV1)
             {
                 SearchPaths = [Path.GetDirectoryName(ClassLibraryV1)!]
@@ -26,7 +29,10 @@ public class GetMissingSymbolsTests : BaseUnitTest
         var analyzer = new ApiAnalyzer();
 
         var result = analyzer.GetMissingSymbols(
-            new(LibraryBuiltAgainstV1),
+            new(LibraryBuiltAgainstV1)
+            {
+                SearchPaths = [Path.GetDirectoryName(LibraryBuiltAgainstV1)!]
+            },
             new(ClassLibraryV2)
             {
                 SearchPaths = [Path.GetDirectoryName(ClassLibraryV2)!]

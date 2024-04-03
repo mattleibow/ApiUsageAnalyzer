@@ -60,17 +60,19 @@ public class ApiAnalyzer
         var typeRefs = module.GetTypeReferences();
 
         var dependencyAssemblyName = GetAssemblyName(dependency);
+
         foreach (var typeRef in typeRefs)
         {
             var name = GetSymbolAssemblyName(typeRef);
             if (name != dependencyAssemblyName)
                 continue;
 
-            var resolved = dependency.MetadataResolver.Resolve(typeRef);
-            if (resolved is null)
-            {
-                missingTypes.Add(typeRef.FullName);
-            }
+            var clonedDependency = CloneType(typeRef, dependency);
+            var resolvedDependency = dependency.MetadataResolver.Resolve(clonedDependency);
+            if (resolvedDependency is not null)
+                continue;
+
+            missingTypes.Add(typeRef.FullName);
         }
     }
 
@@ -104,11 +106,24 @@ public class ApiAnalyzer
         }
     }
 
+    private static TypeReference CloneType(TypeReference type, ModuleDefinition module)
+    {
+        var newType = new TypeReference(type.Namespace, type.Name, module, module.Assembly.Name);
+        if (type.DeclaringType is not null)
+        {
+            newType.DeclaringType = CloneType(type.DeclaringType, module);
+        }
+        return newType;
+    }
+
     private static string GetSymbolAssemblyName(MemberReference reference) =>
         GetSymbolAssemblyName(reference.DeclaringType);
 
     private static string GetSymbolAssemblyName(TypeReference reference)
     {
+        if (reference is TypeDefinition typeDefinition)
+            return GetAssemblyName(typeDefinition.Module);
+
         var scope = reference.Scope;
         var name = scope.Name;
 
